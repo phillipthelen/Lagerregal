@@ -119,7 +119,7 @@ class Device(models.Model):
     currentlending = models.ForeignKey("Lending", related_name="currentdevice", null=True, blank=True,
                                        on_delete=models.SET_NULL)
 
-    manual = models.FileField(upload_to=utils.get_file_location, null=True, blank=True)
+    # manual = models.FileField(upload_to=utils.get_file_location, null=True, blank=True)
     contact = models.ForeignKey(Lageruser, related_name="as_contact",
                                 help_text=_("Person to contact about using this device"), blank=True,
                                 null=True, on_delete=models.SET_NULL)
@@ -132,6 +132,7 @@ class Device(models.Model):
     department = models.ForeignKey(Department, null=True, blank=True, related_name="devices", on_delete=models.SET_NULL)
     is_private = models.BooleanField(default=False)
     used_in = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL,)
+
 
     def __str__(self):
         return self.name
@@ -179,6 +180,10 @@ class Device(models.Model):
         return Device.objects.filter(department__in=departments).exclude(
             ~Q(department__in=departments), is_private=True)
 
+class Manual(models.Model):
+    location = models.FileField(upload_to=utils.get_file_location, null=True, blank=True)
+    name = models.CharField(_('Name'), max_length=200)
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
 
 @six.python_2_unicode_compatible
 class DeviceInformationType(models.Model):

@@ -14,6 +14,7 @@ from devicetypes.models import TypeAttribute, TypeAttributeValue
 from devicegroups.models import Devicegroup
 from users.models import Lageruser, Department
 from mail.models import MailTemplate
+from Lagerregal import utils
 
 
 CHARMODIFIER = (
@@ -263,6 +264,7 @@ class DeviceForm(forms.ModelForm):
 
     description = forms.CharField(widget=forms.Textarea(attrs={'style': "height:80px"}), max_length=1000,
                                   required=False)
+    # manual = forms.FileField(required=False)
     webinterface = forms.URLField(max_length=60, required=False)
     creator = forms.ModelChoiceField(queryset=Lageruser.objects.all(), widget=forms.HiddenInput())
     comment = forms.CharField(required=False)
