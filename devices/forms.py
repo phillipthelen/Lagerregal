@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import re
+import datetime
 
 from django import forms
 from django.contrib.auth.models import Group
@@ -193,11 +194,16 @@ class LendForm(forms.Form):
             self.fields['duedate'].initial = device.currentlending.duedate
             self.fields['room'].initial = device.room
             self.fields['device'].initial = device
-            print(self.fields['device'].initial)
 
     def clean_device(self):
         device = self.cleaned_data["device"]
         return device
+
+    def clean_owner(self):
+        owner = self.cleaned_data["owner"]
+        if owner.expiration_date < datetime.date.today():
+            self.add_error('owner', "The account is expired")
+        return owner
 
 
 class ReturnForm(forms.Form):
