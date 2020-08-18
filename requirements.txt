@@ -4,12 +4,14 @@ djangorestframework >= 3.6.4
 django-debug-toolbar >= 1.10
 Pillow
 django-oauth-toolkit
-pytz
-pystache
+pytz~=2020.1
+pystache~=0.5.4
 model_mommy
 django_auth_ldap
 django-favicon
 django-npm
 django-select2
 psycopg2-binary
-faker
+faker~=4.1.1
+reportlab
+requests

@@ -112,6 +112,8 @@ class PuppetProvider(BaseProvider):
 
     @staticmethod
     def __run_query(query):
+        if not hasattr(settings, "PUPPETDB_SETTINGS"):
+            return
         params = urllib.parse.urlencode({'query': query})
 
         if settings.PUPPETDB_SETTINGS['ignore_ssl'] is not True:
@@ -144,6 +146,8 @@ class PuppetProvider(BaseProvider):
         return body
 
     def get_device_info(self, device):
+        if not hasattr(settings, "PUPPETDB_SETTINGS"):
+            return
         query = (
             '["in", "certname", ["extract", "certname", ["select_facts", '
             '["and", ["=", "name", "{}"], ["=", "value", "{}"]]]]]'
@@ -155,6 +159,8 @@ class PuppetProvider(BaseProvider):
         return PuppetDeviceInfo(device, device_entries)
 
     def get_software_info(self, device):
+        if not hasattr(settings, "PUPPETDB_SETTINGS"):
+            return
         software_fact = settings.PUPPETDB_SETTINGS['software_fact']
         query_fact = settings.PUPPETDB_SETTINGS['query_fact']
 
@@ -170,6 +176,8 @@ class PuppetProvider(BaseProvider):
         return software_infos
 
     def has_device(self, device):
+        if not hasattr(settings, "PUPPETDB_SETTINGS"):
+            return False
         query = (
             '["in", "certname", ["extract", "certname", ["select_facts", '
             '["and", ["=", "name", "{}"], ["=", "value", "{}"]]]]]'
